@@ -17,11 +17,18 @@ async function apiCall()
         
         const data = await response.json();
         
-        console.log(data.results.length);
+        console.log(data);
         movie_list = data;
     }
     displayMovie();
 }
+
+apiCall()      
+.catch(error => {
+          	console.log("error occured while loading the movies file!");
+          	console.error(error);
+        });
+   
 // error handling .apiCall()
 /*function displayMovie()
 {
