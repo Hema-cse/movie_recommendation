@@ -1,6 +1,18 @@
 ﻿* {
     box-sizing: border-box;
 }
+.container #loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: white;
+    text-align: center;
+}
+
+.conatiner #loading img {
+        margin-top: 160px;
+    }
 .container span
 {
     background-color:darkslategrey;
