@@ -1,6 +1,6 @@
 movie_list = [];
 
-async function apiCall()
+async function loadData()
 {
     
     var movie_name = document.getElementById("myInput").value;
@@ -17,7 +17,7 @@ async function apiCall()
     {
         const response = await fetch("http://itunes.apple.com/search?term=" + movie_name + "&entity=movie");       
         const data = await response.json();
-
+      
         movie_list = data;     
         displayMovie();
     }
@@ -43,13 +43,12 @@ function onClickAdd(event)                                      // event of add 
     
 
     let div2 = document.createElement('div');                // creating div tag
-    let uTag = document.createElement('ul');                 // creating unordered list 
-   if(count<5)
-   {
+    let uTag = document.createElement('ul');                 // creating unordered list
+    div2.className = "wrapper2";
+    uTag.className = "u_class";
+   
       
        let ltg = document.createElement('li');
-       div2.className = "wrapper2";
-       uTag.className = "u_class";
        ltg.className = "l_class";
 
        /*let x = document.getElementById('btn2');                 // close button in html
@@ -61,19 +60,25 @@ function onClickAdd(event)                                      // event of add 
        let a = document.createElement('a');                        // creating anchor tag to display movie title and artist name
        a.setAttribute('id', 'a_id');                                 // a_id is the id
        a.className = "watchListItem";
+       let close = document.getElementById("close");
+       close.innerHTML = 'x';
        a.innerHTML = event.target.parentElement.parentElement.children[1].innerHTML +"  "+ '[' + event.target.parentElement.parentElement.children[2].innerHTML + ']'+""; // inserting the title and artist name
        console.log(a);
        a.href = "movie_list.results[i].longDescription";
 
+       ltg.appendChild(close);
+       alert("sadad00");
        ltg.appendChild(a);
        uTag.appendChild(ltg);
        div2.appendChild(uTag);        
        document.body.appendChild(div2);                             // appending the div to the body
 
                                                                     // adding the mail recommendation button
+       count += 1;
 
-    }
+
     
+    //getMailBtn();
 }
 
 
@@ -103,10 +108,8 @@ function getMailBtn() {                                             // mail reco
 
 function displayMovie()
 {
-        
-    let len = movie_list.results.length;
-   // alert(len); takes time to load the file based on search key
-    for (let i = 0; i < len; i++)// only 10 movies
+    let len = 10;                                         // displays only 10 movies
+    for (let i = 0; i < len; i++)
     {
         console.log(movie_list.results[i]);
         let divTag = document.createElement("div");

@@ -13,7 +13,7 @@
         <div class="left">
             <form onsubmit="return false">
                 <input id="myInput" type="text" name="" placeholder="search movie" />
-                <button id="sbmt" onclick="apiCall()"> SEARCH </button>
+                <button id="sbmt" onclick="loadData()"> SEARCH </button>
             </form>           
 
         </div>
@@ -21,10 +21,11 @@
         <div id="right">
             <p id="p1">WATCHLIST</p>
             <p id="p2">
-               
-                    Selected movies will appear here <br />[Click add button on search results to add an item to this list]
-                
-             </p>
+
+                Selected movies will appear here <br />[Click add button on search results to add an item to this list]
+
+            </p>
+            <span id="close"></span>
         </div>
 
     </div>
