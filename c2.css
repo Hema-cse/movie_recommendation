@@ -1,53 +1,39 @@
 ﻿* {
     box-sizing: border-box;
-}
-.container #loading {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    background-color: white;
-    text-align: center;
+  
 }
 
-.container #loading img {
-
-        margin-top: 160px;
- }
-.container span{
-
-    background-color:darkslategrey;    
-    align-items:center;
-    justify-content:center;
-
-}
 .container{
 
     display:flex;
     flex-direction:column;
 }
-.div2 {
-    position: absolute;
-    top: 100px;
-    right: 50px;
-
+#div2 {
+ 
+    position:absolute;
+    top:60px;
+    right:30px;
+    
 }
 .div2 .ul_class.li_class{
-        list-style-type: none;
-        
+
+        list-style-type: none;       
 }
 
 #p1 {
+  
+    font-family:'Bookman Old Style';
+    font-weight:480;
 
-    position: absolute;
-    top: 100px;
-    right: 100px;
 }
 #p2 {
+    font-size:1.2em;
+    top: 0px;
+    right: 0px;
+}
 
-    position: absolute;
-    top: 120px;
-    right: 30px;
+#a_id {
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 input {
 
@@ -87,18 +73,10 @@ input:hover {
 .wrapper {
 
     display:block;
-    width:500px;
+    width:400px;
+    height:200%;
     border-radius:10px;
     background-color: silver;   
-}
-
-.watchListItem
-{
-    position:absolute;
-    display:flex;
-    top:100px;
-    right:80px;
-    border:10px;
 }
 
 .a_class, #a_id {
@@ -113,9 +91,6 @@ input:hover {
     display:block;
 }
 
-.li_class{
-
-}
 .ul_class {
    
     list-style-type: none;
@@ -130,7 +105,7 @@ input:hover {
 
 #close
 {
-    background-color:white;
+    background-color:transparent;
     padding:15px;
     color:red;
     width:10px;
@@ -175,54 +150,67 @@ input:hover {
     border-radius:5px;
     width:50px;
     height:30px;
-    letter-spacing:1px;
-    
+    letter-spacing:1px;   
   
-}
-.u_class {
-
 }
 
 .btn_class:hover {
+
     border: 2px;
     transition: all 15ms ease-in-out;
     cursor: pointer;
 }
 .mail_class {
+
     position:absolute;
-    top:700px;
-    right:30px;
+    top:500px;
+    right:50px;
     background-color:rebeccapurple;
     color: #fff;
     cursor: pointer;
-    width: 180px;
+    width: 200px;
+    height:45px;
+    font-size:15px;
     border-radius: 10px;
     letter-spacing:2px;
 }
 
 .mail_class:hover {
     border: 2px;
-    transition: all 15ms ease-in-out;
+    transition: all 20ms ease-in-out;
     cursor: pointer;
 }
 
-@media screen and (max-width: 500px) {
-    .container{
-        width:50%;
+@media screen and (max-width: 500px) 
+{
+    .container
+    {
+        width:70%;
         display:flex;
         flex-direction:column;
     }
-    #right {
+
+    #right 
+    {
         display:none;
     }
-    #myInput{
-        width:130px;
+
+    #myInput
+    {
+        width:160px;
     }
-    #sbmt{
+
+    #sbmt
+    {
         width:80px;
     }
     .wrapper
     {
-        width:30px;
+        width:180px;
+    }
+
+    #div2
+    {
+       display:none;
     }
 }
