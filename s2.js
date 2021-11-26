@@ -6,14 +6,11 @@ async function loadData()
     var movie_name = document.getElementById("myInput").value;
     document.getElementById("sbmt").disabled = true;               // disabling submit button
 
-    /*const response = await fetch("http://itunes.apple.com/search?term=" + movie_name + "&entity=movie"); // searches based on movie name
-    const data = await response.json();*/
-    
     if (movie_name=='')
     {
         alert("enter the movie title");
     }
-    else
+   else
     {
         const response = await fetch("http://itunes.apple.com/search?term=" + movie_name + "&entity=movie");       
         const data = await response.json();
@@ -24,74 +21,55 @@ async function loadData()
    
 }
 
-// error handling 
-/*apiCall()
-.catch(error => {
-        console.log("error occured while loading the movies file");
-       
-        console.error(error);
-        });*/
-
-var count = 1;
-
+var desc = document.getElementById("p2");                  // removing the description once add button is clicked
+desc.remove();
 function onClickAdd(event)                                      // event of add button
 {
-    var myobj = document.getElementById("p2");                  // removing the description once add button is clicked
-    myobj.remove();
-    let btns = document.getElementById("btn_id");               // add button id
-    //let qs = document.querySelector("btn_id");
+        
+        let btns = document.getElementById("btn_id");               // add button id
     
-
-    let div2 = document.createElement('div');                // creating div tag
-    let uTag = document.createElement('ul');                 // creating unordered list
-    div2.className = "wrapper2";
-    uTag.className = "u_class";
-   
+        let div2 = document.createElement('div');                // creating div tag
+        let uTag = document.createElement('ul');                 // creating unordered list
+        div2.className = "wrapper2";
+        uTag.className = "u_class";
       
-       let ltg = document.createElement('li');
-       ltg.className = "l_class";
+        let ltg = document.createElement('li');
+        ltg.className = "l_class";
+        let a = document.createElement('a');                        // creating anchor tag to display movie title and artist name
+        a.setAttribute('id', 'a_id');                                 // a_id is the id
+        a.className = "watchListItem";
+        let span = document.createElement('span');
+        span.innerHTML = 'x';                                       // close button
+        span.setAttribute('id', "close");
 
-       /*let x = document.getElementById('btn2');                 // close button in html
-       x.style.display = 'block';
-       //alert(x);
-       document.body.append(x);
-       */
-
-       let a = document.createElement('a');                        // creating anchor tag to display movie title and artist name
-       a.setAttribute('id', 'a_id');                                 // a_id is the id
-       a.className = "watchListItem";
-       let close = document.getElementById("close");
-       close.innerHTML = 'x';
        a.innerHTML = event.target.parentElement.parentElement.children[1].innerHTML +"  "+ '[' + event.target.parentElement.parentElement.children[2].innerHTML + ']'+""; // inserting the title and artist name
        console.log(a);
        a.href = "movie_list.results[i].longDescription";
 
-       ltg.appendChild(close);
-       alert("sadad00");
+       ltg.appendChild(span);
        ltg.appendChild(a);
        uTag.appendChild(ltg);
        div2.appendChild(uTag);        
        document.body.appendChild(div2);                             // appending the div to the body
+                                                                   
+                                                                   // adding the mail recommendation button
 
-                                                                    // adding the mail recommendation button
-       count += 1;
-
-
-    
+    removing();
+       
+        
+            
     //getMailBtn();
 }
 
+function removing() {
+    
+    let c = document.querySelectorAll('span');
+    for (let i = 0; i < c.length; i++) {
+        c[i].addEventListener('click', () => {
+            c[i].parentElement.style.opacity = 0;
 
-
-function getDes()                                                      // watch list description
-{
-
-    let Pdiv = document.createElement('div');                            // para
-    Pdiv.setAttribute('id', 'para_id');
-    let p = document.getElementById('p2');
-    para.appendChild(p);
-    document.body.append(para);
-  
+        })
+    }
 
 }
 
@@ -192,9 +170,3 @@ function sendMail() {
 
         .then(data => console.log(data))
 }
-
-
- 
-
-
-
