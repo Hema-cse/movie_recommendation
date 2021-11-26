@@ -1,10 +1,10 @@
-movie_list = [];
+var movie_list = [];    // stores the list of movies based on search key
+var final_movies = []; // holds the list of final movies
 
 async function loadData()
 {
-    
-    var movie_name = document.getElementById("myInput").value;
-    document.getElementById("sbmt").disabled = true;               // disabling submit button
+
+    var movie_name = document.getElementById("myInput").value;  // stores the value entered in textbox
 
     if (movie_name=='')
     {
@@ -12,10 +12,11 @@ async function loadData()
     }
    else
     {
-        const response = await fetch("http://itunes.apple.com/search?term=" + movie_name + "&entity=movie");       
+        
+        const response = await fetch("http://itunes.apple.com/search?term=" + movie_name + "&entity=movie");  // fetching the data       
         const data = await response.json();
-      
-        movie_list = data;     
+        document.getElementById("loading").style.display = "none";
+        movie_list = data;  // storing the list of movies 
         displayMovie();
     }
    
@@ -23,10 +24,28 @@ async function loadData()
 
 var desc = document.getElementById("p2");                  // removing the description once add button is clicked
 desc.remove();
+
 function onClickAdd(event)                                      // event of add button
 {
-        
-        let btns = document.getElementById("btn_id");               // add button id
+
+    
+    const value = event.target.parentElement.parentElement.children[1].innerText;   // returns the movie title
+    let found = final_movies.indexOf(value) >= 0;              // returns true if movie alredy exists in final_movies
+   
+    if (final_movies.length >= 5 || found)              // checks to add movies in the watch list
+    {                 
+        let msg = "";
+        if (found)
+        {
+            alert("movie already added in watchlist");      
+        }
+        else
+        {
+            alert("only 5 movies can be added");
+        }
+        return;
+    }
+
     
         let div2 = document.createElement('div');                // creating div tag
         let uTag = document.createElement('ul');                 // creating unordered list
@@ -38,70 +57,66 @@ function onClickAdd(event)                                      // event of add 
         let a = document.createElement('a');                        // creating anchor tag to display movie title and artist name
         a.setAttribute('id', 'a_id');                                 // a_id is the id
         a.className = "watchListItem";
+        a.innerHTML = event.target.parentElement.parentElement.children[1].innerHTML + "  " + '[' + event.target.parentElement.parentElement.children[2].innerHTML + ']' + ""; // inserting the title and artist name
+        a.href = movie_list.results.trackViewUrl;
+
         let span = document.createElement('span');
         span.innerHTML = 'x';                                       // close button
         span.setAttribute('id', "close");
 
-       a.innerHTML = event.target.parentElement.parentElement.children[1].innerHTML +"  "+ '[' + event.target.parentElement.parentElement.children[2].innerHTML + ']'+""; // inserting the title and artist name
-       console.log(a);
-       a.href = "movie_list.results[i].longDescription";
+        span.onclick = (event) => {
+            const value = event.target.parentElement.innerText.slice(1, event.target.parentElement.innerText.indexOf("[") - 1); // returns movie name
+            final_movies = final_movies.filter((mve) => {
+            let exists = mve != value;              
+            return exists;
+            })       
+            event.target.parentElement.style.display = "none";
 
+        };
+        
+        final_movies.push(event.target.parentElement.parentElement.children[1].innerText); // pushing the movie titles in final list
+       
        ltg.appendChild(span);
        ltg.appendChild(a);
        uTag.appendChild(ltg);
        div2.appendChild(uTag);        
-       document.body.appendChild(div2);                             // appending the div to the body
+       document.body.appendChild(div2);                      // appending the div to the body
                                                                    
-                                                                   // adding the mail recommendation button
+    if (final_movies.length == 1)
+    {
+        getMailBtn();                                       // adding the mail recommendation button
 
-    removing();
-       
-        
-            
-    //getMailBtn();
+    }                                                            
+             
 }
 
-function removing() {
+function getMailBtn()                                       
+{                                             
     
-    let c = document.querySelectorAll('span');
-    for (let i = 0; i < c.length; i++) {
-        c[i].addEventListener('click', () => {
-            c[i].parentElement.style.opacity = 0;
-
-        })
-    }
-
-}
-
-function getMailBtn() {                                             // mail recommendation button
-    
-    let btn = document.createElement("button");
+    let btn = document.createElement("button");                  // mail recommendation button
     btn.setAttribute('id', 'mail_id');
-    btn.setAttribute('class', 'mail_class'); 
+    btn.setAttribute('class', 'mail_class');
+    btn.setAttribute("onclick", "sendMail()");                  // click event to send the mail
     btn.innerHTML = "Mail Recommendations";
     document.body.appendChild(btn);
-    btn.setAttribute("onclick", "sendMail()");                       // click event to send the mail
-    alert("Mail sent successfully");
+
 }
 
-function displayMovie()
+ function displayMovie()
 {
-    let len = 10;                                         // displays only 10 movies
-    for (let i = 0; i < len; i++)
+     let len = movie_list.results.length;                        // displays only 10 movies
+     for (let i = 0; i < len && i<10; i++)
     {
-        console.log(movie_list.results[i]);
         let divTag = document.createElement("div");
-        divTag.classList.add("wrapper");                  //class name for div elemeent
-        divTag.style.width = "600px";
-        divTag.style.height = "180px";
+        divTag.classList.add("wrapper");                        //class name for div elemeent
         let ul_list = document.createElement('ul');
-        ul_list.setAttribute('class', 'ul_class');           //ul_class
+        ul_list.setAttribute('class', 'ul_class');              //ul_class
         
         let p1 = document.createElement('li');
         p1.setAttribute('class', 'li_class');                   // li_class
 
         let img = document.createElement("img");                  // album cover
-        img.setAttribute('src', movie_list.results[i].artworkUrl60);
+        img.src = movie_list.results[i].artworkUrl60 ;
         img.setAttribute('alt', 'Movie album');
         img.setAttribute('height', '50px');
         img.setAttribute('width', '50px');        
@@ -110,63 +125,63 @@ function displayMovie()
               
 
         let p2 = document.createElement("li");                        // movie title
-        let mve_title = movie_list.results[i].trackName;
+        let mve_title =  movie_list.results[i].trackName;
         p2.innerHTML = "<b>"+mve_title+"<b>";
         ul_list.appendChild(p2);
 
         let p3 = document.createElement("li");
-        let artistName = "<b>"+movie_list.results[i].artistName+"<b>"    //artist name
+        let artistName =  movie_list.results[i].artistName           //artist name
         p3.innerHTML = artistName;
         ul_list.appendChild(p3);
 
         let p4 = document.createElement("li");
-        let btn = document.createElement("button");                       // add button
+        let btn = document.createElement("button");                   // add button
         btn.setAttribute('id', 'btn_id');
         btn.setAttribute('class', 'btn_class'); 
         btn.innerHTML = "ADD";
-        btn.setAttribute("onclick", "onClickAdd(event)");                 // onclick event
+        btn.setAttribute("onclick", "onClickAdd(event)");             // onclick event
         p4.appendChild(btn);
         ul_list.appendChild(p4);
 
         let p5 = document.createElement("li");
         var a = document.createElement('a');                             //  anchor tag for read more
         a.setAttribute("class", "a_class");
-        var link = document.createTextNode("Read more");       
-        a.appendChild(link);
-        a.href = "movie_list.results[i].longDescription";
+        a.innerHTML="Read more";
+        
+        a.href = movie_list.results[i].trackViewUrl;
         p5.appendChild(a);
         ul_list.appendChild(p5);   
       
         divTag.appendChild(ul_list);
-        console.log(divTag);
         
-        let x=document.body.appendChild(divTag);                           // appending the elements to the body
-        console.log("final",x);       
+        document.body.appendChild(divTag);                    // appending the elements to the body    
 
     }
 
 }
-//sendMail();
-function sendMail() {
-    fetch('http://vimgrep.com/mail/sendmail.php', {
-        method:'POST',
 
-        body: JSON.stringify(
+function sendMail()                                              //sendMail()
+{
+    fetch('http://vimgrep.com/mail/sendmail.php',
+        {
+             method: 'POST',
 
-            {
-                "recipient": "hemadharmala8978@gmail.com",
+            body: JSON.stringify
+                ({
 
-                "subject": "movie watchList",
+                    "recipient": "hemadharmala8978@gmail.com",
 
-                "body": "Hello",
+                    "subject": "movie watchList",
 
-                "key": "UOL"
-            }
+                    "body": final_movies,
 
-        )
+                    "key": "UOL"
+                })
 
-    })
+        })
         .then(response => response.json())
-
         .then(data => console.log(data))
+        .then((check) => {
+                alert("mail sent successfully");
+            });
 }

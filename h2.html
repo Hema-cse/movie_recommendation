@@ -8,13 +8,15 @@
 </head>
 <body>
     <div class="container">
-
+        <section id="loading">
+            <img src="C:\Users\hemad\Documents\GitHub\movie_recommendation\load_icon.gif">
+        </section>
         <center><h1>Movie Recommendation Page</h1></center>
         <div class="left">
             <form onsubmit="return false">
                 <input id="myInput" type="text" name="" placeholder="search movie" />
                 <button id="sbmt" onclick="loadData()"> SEARCH </button>
-            </form>           
+            </form>
 
         </div>
 
@@ -25,7 +27,7 @@
                 Selected movies will appear here <br />[Click add button on search results to add an item to this list]
 
             </p>
-            <span id="close"></span>
+
         </div>
 
     </div>
